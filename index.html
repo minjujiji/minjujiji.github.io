@@ -1,0 +1,1911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minju Jiji | Software Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --navy: #0F3C65;
+  --navy-dark: #091F3A;
+  --navy-light: #1A5A8A;
+  --accent: #FFF2BA;
+  --accent-light: #FFF8D6;
+  --gold: #FFF2BA;
+  --white: #FFFFFF;
+  --off-white: #F8F9FB;
+  --gray-50: #F1F3F5;
+  --gray-100: #E9ECEF;
+  --gray-200: #DEE2E6;
+  --gray-300: #CED4DA;
+  --gray-400: #ADB5BD;
+  --gray-500: #868E96;
+  --gray-600: #555555;
+  --gray-700: #495057;
+  --gray-800: #343A40;
+  --gray-900: #212529;
+  --success: #2ECC71;
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --mono: 'Fira Code', monospace;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+  --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
+  --shadow-xl: 0 20px 60px rgba(0,0,0,0.15);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  color: var(--gray-800);
+  line-height: 1.6;
+  background: var(--white);
+  overflow-x: hidden;
+}
+
+/* ── Scroll Animations ── */
+.scroll-hidden {
+  opacity: 0;
+  transform: translateY(30px);
+}
+.scroll-hidden, .scroll-revealed {
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.scroll-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Navigation ── */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 0 24px;
+  transition: var(--transition);
+}
+
+.nav.scrolled {
+  background: rgba(27, 58, 92, 0.95);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 2px 20px rgba(0,0,0,0.15);
+}
+
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+.nav-logo {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--white);
+  text-decoration: none;
+  letter-spacing: -0.5px;
+}
+
+.nav-logo span { color: var(--accent); }
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+}
+
+.nav-links a {
+  color: rgba(255,255,255,0.8);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: var(--transition);
+  position: relative;
+}
+
+.nav-links a:hover { color: var(--white); }
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: var(--transition);
+}
+
+.nav-links a:hover::after { width: 100%; }
+
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--white);
+  margin: 5px 0;
+  transition: var(--transition);
+}
+
+/* ── Hero ── */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 50%, var(--navy-light) 100%);
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.hero-bg .circle {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.05;
+  background: var(--accent);
+}
+
+.hero-bg .circle:nth-child(1) { width: 600px; height: 600px; top: -200px; right: -100px; animation: float 20s ease-in-out infinite; }
+.hero-bg .circle:nth-child(2) { width: 400px; height: 400px; bottom: -100px; left: -100px; animation: float 25s ease-in-out infinite reverse; }
+.hero-bg .circle:nth-child(3) { width: 200px; height: 200px; top: 40%; left: 60%; animation: float 15s ease-in-out infinite; }
+
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 242, 186, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 242, 186, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -30px) scale(1.05); }
+  66% { transform: translate(-20px, 20px) scale(0.95); }
+}
+
+.hero-content {
+  position: relative;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 120px 60px 80px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.hero-text { z-index: 1; }
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 242, 186, 0.15);
+  border: 1px solid rgba(255, 242, 186, 0.3);
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: var(--accent-light);
+  margin-bottom: 24px;
+}
+
+.hero-badge .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--success);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.hero h1 {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 800;
+  color: var(--white);
+  line-height: 1.1;
+  margin-bottom: 8px;
+  letter-spacing: -1.5px;
+}
+
+.hero h2 {
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  font-weight: 400;
+  color: var(--accent-light);
+  margin-bottom: 24px;
+}
+
+.hero-description {
+  font-size: 1.05rem;
+  color: rgba(255,255,255,0.7);
+  max-width: 500px;
+  margin-bottom: 32px;
+  line-height: 1.7;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: var(--transition);
+  cursor: pointer;
+  border: none;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--navy-dark);
+}
+
+.btn-primary:hover {
+  background: var(--accent-light);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 242, 186, 0.4);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--white);
+  border: 1.5px solid rgba(255,255,255,0.3);
+}
+
+.btn-outline:hover {
+  border-color: var(--white);
+  background: rgba(255,255,255,0.05);
+  transform: translateY(-2px);
+}
+
+/* Hero visual - terminal card */
+.hero-visual { z-index: 1; }
+
+.terminal-card {
+  background: rgba(15, 36, 64, 0.8);
+  border: 1px solid rgba(255, 242, 186, 0.2);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-xl);
+}
+
+.terminal-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: rgba(0,0,0,0.3);
+  border-bottom: 1px solid rgba(255,242,186,0.1);
+}
+
+.terminal-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.terminal-dot.red { background: #FF5F57; }
+.terminal-dot.yellow { background: #FEBC2E; }
+.terminal-dot.green { background: #28C840; }
+
+.terminal-title {
+  flex: 1;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--gray-400);
+  font-family: var(--mono);
+}
+
+.terminal-body {
+  padding: 20px;
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.8);
+}
+
+.terminal-line { margin-bottom: 4px; }
+.terminal-prompt { color: var(--accent); }
+.terminal-keyword { color: var(--gold); }
+.terminal-string { color: var(--success); }
+.terminal-comment { color: var(--gray-500); }
+.terminal-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 16px;
+  background: var(--accent);
+  animation: blink 1s step-end infinite;
+  vertical-align: text-bottom;
+  margin-left: 2px;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ── Stats Bar ── */
+.stats-bar {
+  background: var(--navy-dark);
+  border-top: 1px solid rgba(255,242,186,0.1);
+  padding: 40px 24px;
+}
+
+.stats-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: -1px;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.5);
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ── Section Common ── */
+.section {
+  padding: 100px 24px;
+}
+
+.section-alt {
+  background: var(--off-white);
+}
+
+.section-dark {
+  background: var(--navy);
+  color: var(--white);
+}
+
+.section-header {
+  max-width: 1200px;
+  margin: 0 auto 60px;
+  text-align: center;
+}
+
+.section-label {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+  font-weight: 800;
+  color: var(--navy);
+  letter-spacing: -1px;
+  margin-bottom: 16px;
+}
+
+.section-dark .section-title { color: var(--white); }
+
+.section-subtitle {
+  font-size: 1.05rem;
+  color: var(--gray-500);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.section-dark .section-subtitle { color: rgba(255,255,255,0.6); }
+
+/* ── About ── */
+.about-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+
+.about-text p {
+  font-size: 1.05rem;
+  color: var(--gray-600);
+  margin-bottom: 20px;
+  line-height: 1.8;
+}
+
+.about-highlights {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.highlight-card {
+  padding: 20px;
+  background: var(--white);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--gray-100);
+  transition: var(--transition);
+}
+
+.highlight-card:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.highlight-icon {
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+}
+
+.highlight-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+
+.highlight-desc {
+  font-size: 0.8rem;
+  color: var(--gray-500);
+  line-height: 1.5;
+}
+
+/* ── Skills ── */
+.skills-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.skill-category {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 28px;
+  border: 1px solid var(--gray-100);
+  transition: var(--transition);
+}
+
+.skill-category:hover {
+  box-shadow: var(--shadow-lg);
+  border-color: transparent;
+  transform: translateY(-4px);
+}
+
+.skill-cat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  margin-bottom: 16px;
+}
+
+.skill-cat-icon.lang { background: rgba(255, 242, 186, 0.1); }
+.skill-cat-icon.fw { background: rgba(46, 204, 113, 0.1); }
+.skill-cat-icon.db { background: rgba(212, 168, 67, 0.1); }
+.skill-cat-icon.cloud { background: rgba(155, 89, 182, 0.1); }
+.skill-cat-icon.security { background: rgba(231, 76, 60, 0.1); }
+.skill-cat-icon.tools { background: rgba(52, 73, 94, 0.1); }
+
+.skill-cat-title {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--navy);
+  margin-bottom: 12px;
+}
+
+.skill-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.skill-tag {
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  background: var(--gray-50);
+  color: var(--gray-700);
+  border: 1px solid var(--gray-100);
+  transition: var(--transition);
+}
+
+.skill-tag:hover {
+  background: var(--navy);
+  color: var(--white);
+  border-color: var(--navy);
+}
+
+/* ── Experience ── */
+.timeline {
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 24px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--accent), var(--navy-light));
+}
+
+.timeline-item {
+  position: relative;
+  padding-left: 72px;
+  padding-bottom: 48px;
+}
+
+.timeline-item:last-child { padding-bottom: 0; }
+
+.timeline-dot {
+  position: absolute;
+  left: 14px;
+  top: 4px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 3px solid var(--accent);
+  z-index: 1;
+}
+
+.timeline-item:first-child .timeline-dot {
+  background: var(--accent);
+  box-shadow: 0 0 0 4px rgba(255, 242, 186, 0.2);
+}
+
+.timeline-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 28px;
+  border: 1px solid var(--gray-100);
+  transition: var(--transition);
+}
+
+.timeline-card:hover {
+  box-shadow: var(--shadow-lg);
+  border-color: transparent;
+}
+
+.timeline-header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.timeline-role {
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--navy);
+}
+
+.timeline-company {
+  font-weight: 500;
+  color: var(--accent);
+  font-size: 1rem;
+}
+
+.timeline-meta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 0.85rem;
+  color: var(--gray-500);
+  margin-bottom: 16px;
+}
+
+.timeline-meta span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.timeline-desc {
+  font-size: 0.95rem;
+  color: var(--gray-600);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.timeline-bullets {
+  list-style: none;
+  padding: 0;
+}
+
+.timeline-bullets li {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  color: var(--gray-600);
+  line-height: 1.6;
+}
+
+.timeline-bullets li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 9px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.timeline-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 16px;
+}
+
+.timeline-tech .skill-tag {
+  font-size: 0.75rem;
+  padding: 3px 10px;
+}
+
+/* ── Expandable Experience Cards ── */
+.timeline-card.expandable {
+  cursor: pointer;
+}
+
+.timeline-card.expandable:hover {
+  border-color: var(--accent);
+}
+
+.timeline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.expand-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255,242,186,0.1);
+  color: var(--accent);
+  font-size: 1.2rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  transition: var(--transition);
+}
+
+.timeline-card.expanded .expand-icon {
+  transform: rotate(45deg);
+  background: rgba(255,242,186,0.2);
+}
+
+.expand-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+  opacity: 0;
+}
+
+.timeline-card.expanded .expand-content {
+  max-height: 1200px;
+  opacity: 1;
+}
+
+.expand-section {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--gray-100);
+}
+
+.expand-heading {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--navy);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.expand-about {
+  font-size: 0.9rem;
+  color: var(--gray-600);
+  line-height: 1.7;
+}
+
+/* ── Projects ── */
+.projects-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+}
+
+.project-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--gray-100);
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+}
+
+.project-card:hover {
+  box-shadow: var(--shadow-xl);
+  border-color: transparent;
+  transform: translateY(-6px);
+}
+
+.project-card.featured {
+  grid-column: span 2;
+}
+
+.project-card.featured .project-preview {
+  height: 220px;
+}
+
+.project-preview {
+  height: 180px;
+  position: relative;
+  overflow: hidden;
+}
+
+.project-preview-bg {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+}
+
+.preview-dashboard {
+  background: linear-gradient(135deg, #0F2440 0%, #1B3A5C 50%, #2A5580 100%);
+  position: relative;
+}
+
+.preview-coffee {
+  background: linear-gradient(135deg, #6B4226 0%, #8B6F47 50%, #D4A843 100%);
+}
+
+.preview-signdesk {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+}
+
+.preview-lixi {
+  background: linear-gradient(135deg, #134E5E 0%, #2A8B8B 50%, #71B280 100%);
+}
+
+/* Dashboard mock UI */
+.mock-dashboard {
+  position: absolute;
+  inset: 16px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto 1fr;
+  gap: 8px;
+}
+
+.mock-stat {
+  background: rgba(255,255,255,0.08);
+  border-radius: 6px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.mock-stat-num {
+  font-family: var(--mono);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--accent-light);
+}
+
+.mock-stat-label {
+  font-size: 0.6rem;
+  color: rgba(255,255,255,0.5);
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.mock-chart {
+  grid-column: span 2;
+  background: rgba(255,255,255,0.05);
+  border-radius: 6px;
+  padding: 12px;
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.mock-bar {
+  flex: 1;
+  border-radius: 3px 3px 0 0;
+  min-height: 8px;
+  transition: var(--transition);
+}
+
+.mock-alerts {
+  background: rgba(255,255,255,0.05);
+  border-radius: 6px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow: hidden;
+}
+
+.mock-alert-line {
+  height: 6px;
+  border-radius: 3px;
+  opacity: 0.6;
+}
+
+.project-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: var(--gold);
+  color: var(--navy-dark);
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.project-type-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(0,0,0,0.5);
+  color: var(--white);
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  backdrop-filter: blur(4px);
+}
+
+.project-body {
+  padding: 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.project-title {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--navy);
+  margin-bottom: 8px;
+}
+
+.project-subtitle {
+  font-size: 0.85rem;
+  color: var(--gray-500);
+  margin-bottom: 16px;
+}
+
+.project-desc {
+  font-size: 0.9rem;
+  color: var(--gray-600);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.project-features {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 20px;
+  flex: 1;
+}
+
+.project-features li {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 6px;
+  font-size: 0.85rem;
+  color: var(--gray-600);
+  line-height: 1.5;
+}
+
+.project-features li::before {
+  content: '>';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-family: var(--mono);
+  font-weight: 700;
+}
+
+.project-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: auto;
+}
+
+.project-tech .skill-tag {
+  font-size: 0.75rem;
+  padding: 3px 10px;
+  background: var(--navy);
+  color: var(--white);
+  border-color: transparent;
+}
+
+/* ── Education ── */
+.education-grid {
+  max-width: 800px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+
+.edu-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius);
+  padding: 32px;
+  transition: var(--transition);
+}
+
+.edu-card:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,242,186,0.3);
+  transform: translateY(-4px);
+}
+
+.edu-icon {
+  font-size: 2rem;
+  margin-bottom: 16px;
+}
+
+.edu-degree {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--white);
+  margin-bottom: 4px;
+}
+
+.edu-school {
+  color: var(--accent-light);
+  font-size: 0.95rem;
+  margin-bottom: 12px;
+}
+
+.edu-meta {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 4px;
+}
+
+.edu-score {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,242,186,0.15);
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  color: var(--accent-light);
+  font-weight: 600;
+  margin-top: 8px;
+}
+
+/* ── Certifications ── */
+.cert-section {
+  max-width: 800px;
+  margin: 48px auto 0;
+}
+
+.cert-label {
+  text-align: center;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--accent);
+  margin-bottom: 24px;
+  font-weight: 600;
+}
+
+.cert-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+
+.cert-card {
+  position: relative;
+}
+
+.cert-badge {
+  font-size: 2rem;
+  margin-bottom: 16px;
+}
+
+.cert-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.cert-skill-tag {
+  background: rgba(255,242,186,0.12);
+  color: var(--accent-light);
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.cert-verify {
+  display: inline-block;
+  margin-top: 14px;
+  font-size: 0.85rem;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.cert-verify:hover {
+  color: var(--accent-light);
+}
+
+/* ── Contact ── */
+.contact-content {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.contact-links {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+.contact-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--white);
+  border: 1px solid var(--gray-100);
+  border-radius: var(--radius-sm);
+  padding: 16px 24px;
+  text-decoration: none;
+  color: var(--gray-700);
+  transition: var(--transition);
+  min-width: 200px;
+  justify-content: center;
+}
+
+.contact-card:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+  color: var(--navy);
+}
+
+.contact-icon {
+  font-size: 1.3rem;
+}
+
+.contact-label {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* ── Footer ── */
+.footer {
+  background: var(--navy-dark);
+  padding: 32px 24px;
+  text-align: center;
+}
+
+.footer p {
+  color: rgba(255,255,255,0.4);
+  font-size: 0.85rem;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .nav-links.open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: var(--navy-dark);
+    padding: 24px;
+    gap: 20px;
+    border-bottom: 1px solid rgba(255,242,186,0.1);
+  }
+  .nav-toggle { display: block; }
+
+  .hero-content {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding-top: 100px;
+  }
+
+  .hero-visual { order: -1; }
+
+  .stats-inner { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+
+  .about-grid { grid-template-columns: 1fr; gap: 40px; }
+
+  .skills-grid { grid-template-columns: 1fr; }
+
+  .projects-grid { grid-template-columns: 1fr; }
+  .project-card.featured { grid-column: span 1; }
+
+  .education-grid { grid-template-columns: 1fr; }
+  .cert-grid { grid-template-columns: 1fr; }
+
+  .contact-links { flex-direction: column; align-items: center; }
+
+  .about-highlights { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .stats-inner { grid-template-columns: repeat(2, 1fr); }
+  .stat-number { font-size: 1.6rem; }
+  .hero-actions { flex-direction: column; }
+  .btn { justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">MJ<span>.</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="hero-grid"></div>
+  </div>
+  <div class="hero-content" style="grid-template-columns:1fr;gap:40px;">
+    <div style="display:flex;align-items:center;gap:48px;flex-wrap:wrap;">
+      <img src="minju_photo.jpeg" alt="Minju Jiji" style="width:200px;height:200px;border-radius:50%;object-fit:cover;border:3px solid rgba(255,242,186,0.5);flex-shrink:0;">
+      <div class="hero-text">
+        <div class="hero-badge">
+          <span class="dot"></span>
+          Open to opportunities across Australia
+        </div>
+        <h1>Minju Jiji</h1>
+        <h2>Software Engineer &amp; Cyber Security Graduate</h2>
+        <p class="hero-description">
+          Full-stack developer with production experience in Node.js, React, Python, and TypeScript.
+          I build secure, scalable applications and care about every layer from the API to the interface.
+        </p>
+        <div class="hero-actions">
+          <a href="#projects" class="btn btn-primary">View My Work &#8594;</a>
+          <a href="#contact" class="btn btn-outline">Get In Touch</a>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual" style="display:flex;justify-content:center;">
+      <div class="terminal-card">
+        <div class="terminal-header">
+          <div class="terminal-dot red"></div>
+          <div class="terminal-dot yellow"></div>
+          <div class="terminal-dot green"></div>
+          <span class="terminal-title">minju@portfolio ~ %</span>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-line"><span class="terminal-prompt">const </span><span class="terminal-keyword">developer</span> = {</div>
+          <div class="terminal-line">&nbsp;&nbsp;name: <span class="terminal-string">"Minju Jiji"</span>,</div>
+          <div class="terminal-line">&nbsp;&nbsp;role: <span class="terminal-string">"Software Engineer"</span>,</div>
+          <div class="terminal-line">&nbsp;&nbsp;education: <span class="terminal-string">"M.IT Cyber Security, UTS"</span>,</div>
+          <div class="terminal-line">&nbsp;&nbsp;languages: [<span class="terminal-string">"JS"</span>, <span class="terminal-string">"TS"</span>, <span class="terminal-string">"Python"</span>, <span class="terminal-string">"Java"</span>],</div>
+          <div class="terminal-line">&nbsp;&nbsp;frameworks: [<span class="terminal-string">"React"</span>, <span class="terminal-string">"Next.js"</span>, <span class="terminal-string">"Node"</span>, <span class="terminal-string">"FastAPI"</span>],</div>
+          <div class="terminal-line">&nbsp;&nbsp;databases: [<span class="terminal-string">"PostgreSQL"</span>, <span class="terminal-string">"MongoDB"</span>],</div>
+          <div class="terminal-line">&nbsp;&nbsp;passion: <span class="terminal-string">"Building secure, scalable systems"</span></div>
+          <div class="terminal-line">};</div>
+          <div class="terminal-line">&nbsp;</div>
+          <div class="terminal-line"><span class="terminal-comment">// Let's build something great together</span></div>
+          <div class="terminal-line"><span class="terminal-prompt">$ </span>npm run portfolio<span class="terminal-cursor"></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats Bar -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <div class="stat-number">21+</div>
+      <div class="stat-label">Months Experience</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">10+</div>
+      <div class="stat-label">Technologies</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">4</div>
+      <div class="stat-label">Projects Shipped</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">2</div>
+      <div class="stat-label">Awards &amp; Certs</div>
+    </div>
+  </div>
+</div>
+
+<!-- About Section -->
+<section class="section section-alt" id="about">
+  <div class="section-header">
+    <div class="section-label">About Me</div>
+    <h2 class="section-title">Engineer. Builder. Security-Minded.</h2>
+    <p class="section-subtitle">I build full-stack applications with a security-first approach, combining development skills with cyber security knowledge.</p>
+  </div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>
+        I'm a software engineer with a Master of Information Technology (Cyber Security) from the University of Technology Sydney
+        and hands-on experience building production systems across two industry roles.
+      </p>
+      <p>
+        At SignDesk, I spent 17 months developing REST APIs, implementing authentication systems, and working
+        with enterprise clients on a document compliance platform. At LIXI Ltd, I built Python automation tools
+        that processed over 25,000 data samples and integrated AI capabilities through the Google Gemini API.
+      </p>
+      <p>
+        What drives me is the intersection of building software and keeping it secure. Every endpoint, every data flow,
+        and every user interaction is an opportunity to think like both a developer and a defender.
+      </p>
+    </div>
+    <div>
+      <div class="about-highlights">
+        <div class="highlight-card">
+          <div class="highlight-icon">&#128187;</div>
+          <div class="highlight-title">Full-Stack</div>
+          <div class="highlight-desc">Frontend to backend, APIs to databases. Comfortable owning features end to end.</div>
+        </div>
+        <div class="highlight-card">
+          <div class="highlight-icon">&#128274;</div>
+          <div class="highlight-title">Security-First</div>
+          <div class="highlight-desc">Cyber Security master's degree informs every architectural decision I make.</div>
+        </div>
+        <div class="highlight-card">
+          <div class="highlight-icon">&#129302;</div>
+          <div class="highlight-title">AI Integration</div>
+          <div class="highlight-desc">Hands-on experience with Google Gemini API and AI-powered threat analysis.</div>
+        </div>
+        <div class="highlight-card">
+          <div class="highlight-icon">&#127942;</div>
+          <div class="highlight-title">Award Winner</div>
+          <div class="highlight-desc">Best Project (Interface/Design) at UTS Tech Festival 2025.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Skills Section -->
+<section class="section" id="skills">
+  <div class="section-header">
+    <div class="section-label">Technical Skills</div>
+    <h2 class="section-title">My Technology Toolkit</h2>
+    <p class="section-subtitle">Technologies I work with across the full stack, from frontend interfaces to cloud infrastructure.</p>
+  </div>
+  <div class="skills-container">
+    <div class="skills-grid">
+      <div class="skill-category">
+        <div class="skill-cat-icon lang">&#128421;</div>
+        <div class="skill-cat-title">Languages</div>
+        <div class="skill-tags">
+          <span class="skill-tag">JavaScript</span>
+          <span class="skill-tag">TypeScript</span>
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">Java</span>
+          <span class="skill-tag">SQL</span>
+          <span class="skill-tag">C</span>
+          <span class="skill-tag">HTML/CSS</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <div class="skill-cat-icon fw">&#9881;</div>
+        <div class="skill-cat-title">Frameworks &amp; Libraries</div>
+        <div class="skill-tags">
+          <span class="skill-tag">React</span>
+          <span class="skill-tag">Angular</span>
+          <span class="skill-tag">Next.js</span>
+          <span class="skill-tag">Node.js</span>
+          <span class="skill-tag">Express.js</span>
+          <span class="skill-tag">Koa.js</span>
+          <span class="skill-tag">FastAPI</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <div class="skill-cat-icon db">&#128450;</div>
+        <div class="skill-cat-title">Databases</div>
+        <div class="skill-tags">
+          <span class="skill-tag">PostgreSQL</span>
+          <span class="skill-tag">MongoDB</span>
+          <span class="skill-tag">SQL Server</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <div class="skill-cat-icon cloud">&#9729;</div>
+        <div class="skill-cat-title">Cloud &amp; DevOps</div>
+        <div class="skill-tags">
+          <span class="skill-tag">AWS</span>
+          <span class="skill-tag">Azure</span>
+          <span class="skill-tag">Google Cloud</span>
+          <span class="skill-tag">Docker</span>
+          <span class="skill-tag">CI/CD</span>
+          <span class="skill-tag">Linux</span>
+          <span class="skill-tag">Git</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <div class="skill-cat-icon security">&#128737;</div>
+        <div class="skill-cat-title">Security</div>
+        <div class="skill-tags">
+          <span class="skill-tag">JWT Authentication</span>
+          <span class="skill-tag">Schema Validation</span>
+          <span class="skill-tag">Network Security</span>
+          <span class="skill-tag">Cryptography</span>
+          <span class="skill-tag">REST API Security</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <div class="skill-cat-icon tools">&#128295;</div>
+        <div class="skill-cat-title">Tools &amp; AI</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Jira</span>
+          <span class="skill-tag">Google Gemini API</span>
+          <span class="skill-tag">GitHub Copilot</span>
+          <span class="skill-tag">Claude Code</span>
+          <span class="skill-tag">Cursor</span>
+          <span class="skill-tag">Agile/Scrum</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Experience Section -->
+<section class="section section-alt" id="experience">
+  <div class="section-header">
+    <div class="section-label">Experience</div>
+    <h2 class="section-title">Where I've Worked</h2>
+    <p class="section-subtitle">Production experience building enterprise software and automation tools. Click a role to see the full details.</p>
+  </div>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-card expandable" onclick="toggleExpand(this)">
+        <div class="timeline-header">
+          <div>
+            <div class="timeline-role">Associate Software Engineer</div>
+            <div class="timeline-company">SignDesk</div>
+          </div>
+          <span class="expand-icon">+</span>
+        </div>
+        <div class="timeline-meta">
+          <span>&#128197; June 2022 - November 2023</span>
+          <span>&#128205; Bangalore, India</span>
+          <span>&#9200; 17 Months</span>
+        </div>
+        <p class="timeline-desc">
+          Worked on an enterprise document compliance platform used by corporate clients, contributing across the full development lifecycle in an Agile team.
+        </p>
+        <div class="expand-content">
+          <div class="expand-section">
+            <div class="expand-heading">Key Responsibilities</div>
+            <ul class="timeline-bullets">
+              <li>Built and maintained REST APIs using Node.js and Koa.js for document processing workflows</li>
+              <li>Implemented JWT-based authentication and input schema validation to secure API endpoints</li>
+              <li>Designed and optimized database interactions across PostgreSQL and MongoDB</li>
+              <li>Developed Angular frontend components and led a full website redevelopment</li>
+              <li>Performed structured root-cause analysis to diagnose and resolve production issues</li>
+              <li>Wrote automated tests, conducted code reviews, and collaborated cross-functionally with QA, product, and design teams</li>
+            </ul>
+          </div>
+          <div class="expand-section">
+            <div class="expand-heading">Impact</div>
+            <ul class="timeline-bullets">
+              <li>Contributed to a platform serving enterprise clients for document signing, verification, and compliance</li>
+              <li>Strengthened API security by implementing JWT authentication and comprehensive schema validation across endpoints</li>
+              <li>Improved system reliability through structured debugging processes and automated testing</li>
+              <li>Led the frontend redevelopment, improving the user-facing interface and overall user experience</li>
+            </ul>
+          </div>
+          <div class="expand-section">
+            <div class="expand-heading">About SignDesk</div>
+            <p class="expand-about">SignDesk is an enterprise SaaS platform providing document compliance, digital signing, and verification solutions to corporate clients across India. The platform handles sensitive document workflows requiring secure authentication, data integrity, and regulatory compliance.</p>
+          </div>
+          <div class="timeline-tech">
+            <span class="skill-tag">Node.js</span>
+            <span class="skill-tag">Koa.js</span>
+            <span class="skill-tag">Angular</span>
+            <span class="skill-tag">PostgreSQL</span>
+            <span class="skill-tag">MongoDB</span>
+            <span class="skill-tag">JWT</span>
+            <span class="skill-tag">REST APIs</span>
+            <span class="skill-tag">Jira</span>
+            <span class="skill-tag">Agile/Scrum</span>
+            <span class="skill-tag">Git</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-card expandable" onclick="toggleExpand(this)">
+        <div class="timeline-header">
+          <div>
+            <div class="timeline-role">Software Engineering Intern</div>
+            <div class="timeline-company">LIXI Ltd</div>
+          </div>
+          <span class="expand-icon">+</span>
+        </div>
+        <div class="timeline-meta">
+          <span>&#128197; July 2025 - November 2025</span>
+          <span>&#128205; Sydney, Australia</span>
+          <span>&#9200; 4 Months</span>
+        </div>
+        <p class="timeline-desc">
+          Built Python automation tools for data validation against national Australian lending standards, streamlining what had been a manual process.
+        </p>
+        <div class="expand-content">
+          <div class="expand-section">
+            <div class="expand-heading">Key Responsibilities</div>
+            <ul class="timeline-bullets">
+              <li>Developed FastAPI endpoints that processed over 25,000 XML and JSON data samples</li>
+              <li>Integrated Google Gemini API to auto-generate intelligent validation summaries</li>
+              <li>Built automation tools that replaced time-consuming manual validation workflows</li>
+              <li>Validated financial data against Australia's national lending data standards</li>
+              <li>Worked with compliance and data integrity in a regulated financial environment</li>
+            </ul>
+          </div>
+          <div class="expand-section">
+            <div class="expand-heading">Impact</div>
+            <ul class="timeline-bullets">
+              <li>Processed 25,000+ data samples with FastAPI endpoints, dramatically reducing manual review time</li>
+              <li>Introduced AI-powered summaries using Google Gemini API, automating report generation that previously required manual analysis</li>
+              <li>Built a validation pipeline that could handle both XML and JSON formats, increasing the system's flexibility</li>
+              <li>Contributed to maintaining the integrity of Australia's national lending data standards</li>
+            </ul>
+          </div>
+          <div class="expand-section">
+            <div class="expand-heading">About LIXI Ltd</div>
+            <p class="expand-about">LIXI Ltd is the custodian of Australia's national lending and insurance data standards, maintaining the XML-based data formats used by major Australian banks, lenders, and insurers to exchange mortgage, loan, and insurance information. The organization ensures data consistency and compliance across the financial industry.</p>
+          </div>
+          <div class="timeline-tech">
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">FastAPI</span>
+            <span class="skill-tag">Google Gemini API</span>
+            <span class="skill-tag">XML/JSON</span>
+            <span class="skill-tag">Data Validation</span>
+            <span class="skill-tag">AI Integration</span>
+            <span class="skill-tag">Automation</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Projects Section -->
+<section class="section" id="projects">
+  <div class="section-header">
+    <div class="section-label">Projects</div>
+    <h2 class="section-title">What I've Built</h2>
+    <p class="section-subtitle">Personal and professional projects that showcase my full-stack development and security skills.</p>
+  </div>
+  <div class="projects-grid">
+
+    <!-- Featured: AI Security Dashboard -->
+    <div class="project-card featured">
+      <div class="project-preview preview-dashboard">
+        <div class="mock-dashboard">
+          <div class="mock-stat">
+            <div class="mock-stat-num">2,847</div>
+            <div class="mock-stat-label">Events</div>
+          </div>
+          <div class="mock-stat">
+            <div class="mock-stat-num">14</div>
+            <div class="mock-stat-label">Threats</div>
+          </div>
+          <div class="mock-stat">
+            <div class="mock-stat-num">99.2%</div>
+            <div class="mock-stat-label">Uptime</div>
+          </div>
+          <div class="mock-chart">
+            <div class="mock-bar" style="height:40%;background:rgba(255,242,186,0.6)"></div>
+            <div class="mock-bar" style="height:65%;background:rgba(255,242,186,0.7)"></div>
+            <div class="mock-bar" style="height:45%;background:rgba(255,242,186,0.6)"></div>
+            <div class="mock-bar" style="height:80%;background:rgba(255,242,186,0.8)"></div>
+            <div class="mock-bar" style="height:55%;background:rgba(255,242,186,0.65)"></div>
+            <div class="mock-bar" style="height:90%;background:rgba(231,76,60,0.8)"></div>
+            <div class="mock-bar" style="height:30%;background:rgba(255,242,186,0.5)"></div>
+            <div class="mock-bar" style="height:70%;background:rgba(255,242,186,0.75)"></div>
+            <div class="mock-bar" style="height:50%;background:rgba(255,242,186,0.6)"></div>
+            <div class="mock-bar" style="height:35%;background:rgba(255,242,186,0.55)"></div>
+          </div>
+          <div class="mock-alerts">
+            <div class="mock-alert-line" style="width:80%;background:rgba(231,76,60,0.7)"></div>
+            <div class="mock-alert-line" style="width:60%;background:rgba(212,168,67,0.6)"></div>
+            <div class="mock-alert-line" style="width:90%;background:rgba(46,204,113,0.5)"></div>
+            <div class="mock-alert-line" style="width:70%;background:rgba(46,204,113,0.5)"></div>
+            <div class="mock-alert-line" style="width:50%;background:rgba(46,204,113,0.5)"></div>
+          </div>
+        </div>
+        <div class="project-type-badge">Personal Project</div>
+      </div>
+      <div class="project-body">
+        <div class="project-title">AI Security Dashboard</div>
+        <div class="project-subtitle">Full-Stack Security Monitoring Platform</div>
+        <p class="project-desc">
+          A comprehensive security monitoring platform built from the ground up that detects brute-force login attacks in real time,
+          flags suspicious patterns, and generates AI-powered threat summaries with severity ratings.
+        </p>
+        <ul class="project-features">
+          <li>Real-time detection of brute-force login attempts with pattern analysis</li>
+          <li>AI-powered threat summaries via Google Gemini API with severity ratings</li>
+          <li>JWT-based authentication with secure API communication across service boundaries</li>
+          <li>Interactive data visualizations using Recharts for security event monitoring</li>
+          <li>Multi-service architecture: React frontend, Node.js API, Python microservice</li>
+          <li>PostgreSQL database with structured security event storage</li>
+        </ul>
+        <div class="project-tech">
+          <span class="skill-tag">React</span>
+          <span class="skill-tag">TypeScript</span>
+          <span class="skill-tag">Node.js</span>
+          <span class="skill-tag">Express</span>
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">FastAPI</span>
+          <span class="skill-tag">PostgreSQL</span>
+          <span class="skill-tag">Gemini API</span>
+          <span class="skill-tag">JWT</span>
+          <span class="skill-tag">Recharts</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Coffee! App -->
+    <div class="project-card">
+      <div class="project-preview preview-coffee">
+        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:white;text-align:center;padding:20px">
+          <div style="font-size:3rem;margin-bottom:8px">&#9749;</div>
+          <div style="font-size:1.2rem;font-weight:700;letter-spacing:1px">Coffee!</div>
+          <div style="font-size:0.75rem;opacity:0.7;margin-top:4px">UTS Tech Festival 2025</div>
+        </div>
+        <div class="project-badge">&#127942; Best Project</div>
+        <div class="project-type-badge">University Project</div>
+      </div>
+      <div class="project-body">
+        <div class="project-title">Coffee!</div>
+        <div class="project-subtitle">Award-Winning Mobile Application</div>
+        <p class="project-desc">
+          A mobile application that won Best Project for Interface and Design at the UTS Tech Festival 2025,
+          demonstrating that great software needs to feel as good as it works.
+        </p>
+        <ul class="project-features">
+          <li>Won Best Project (Interface/Design) at UTS Tech Festival 2025</li>
+          <li>Designed with a user-first approach and thoughtful UX patterns</li>
+          <li>Built collaboratively as part of a team project at UTS</li>
+          <li>Recognized for exceptional interface design and user experience</li>
+        </ul>
+        <div class="project-tech">
+          <span class="skill-tag">Mobile Development</span>
+          <span class="skill-tag">UI/UX Design</span>
+          <span class="skill-tag">Team Collaboration</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SignDesk Platform -->
+    <div class="project-card">
+      <div class="project-preview preview-signdesk">
+        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:white;text-align:center;padding:20px">
+          <div style="font-size:3rem;margin-bottom:8px">&#128196;</div>
+          <div style="font-size:1.2rem;font-weight:700;letter-spacing:1px">SignDesk</div>
+          <div style="font-size:0.75rem;opacity:0.7;margin-top:4px">Enterprise Document Compliance</div>
+        </div>
+        <div class="project-type-badge">Professional</div>
+      </div>
+      <div class="project-body">
+        <div class="project-title">Document Compliance Platform</div>
+        <div class="project-subtitle">SignDesk - Enterprise SaaS</div>
+        <p class="project-desc">
+          Contributed to an enterprise document compliance platform serving corporate clients, building secure APIs
+          and frontend components across a 17-month tenure.
+        </p>
+        <ul class="project-features">
+          <li>REST API development with Node.js/Koa.js for document workflows</li>
+          <li>JWT authentication and input schema validation for endpoint security</li>
+          <li>Database design across PostgreSQL and MongoDB</li>
+          <li>Angular frontend development and website redevelopment</li>
+          <li>Production debugging with structured root-cause analysis</li>
+        </ul>
+        <div class="project-tech">
+          <span class="skill-tag">Node.js</span>
+          <span class="skill-tag">Koa.js</span>
+          <span class="skill-tag">Angular</span>
+          <span class="skill-tag">PostgreSQL</span>
+          <span class="skill-tag">MongoDB</span>
+          <span class="skill-tag">JWT</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- LIXI Automation -->
+    <div class="project-card">
+      <div class="project-preview preview-lixi">
+        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:white;text-align:center;padding:20px">
+          <div style="font-size:3rem;margin-bottom:8px">&#9889;</div>
+          <div style="font-size:1.2rem;font-weight:700;letter-spacing:1px">LIXI Automation</div>
+          <div style="font-size:0.75rem;opacity:0.7;margin-top:4px">Data Validation at Scale</div>
+        </div>
+        <div class="project-type-badge">Professional</div>
+      </div>
+      <div class="project-body">
+        <div class="project-title">Lending Standards Automation</div>
+        <div class="project-subtitle">LIXI Ltd - Data Validation &amp; AI</div>
+        <p class="project-desc">
+          Built automation tools that validated financial data against Australia's national lending standards, replacing manual
+          processes and integrating AI for intelligent summarization.
+        </p>
+        <ul class="project-features">
+          <li>Processed 25,000+ XML and JSON data samples programmatically</li>
+          <li>Google Gemini API integration for auto-generated validation summaries</li>
+          <li>FastAPI endpoints for scalable data processing pipelines</li>
+          <li>Compliance-focused development in regulated financial services</li>
+        </ul>
+        <div class="project-tech">
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">FastAPI</span>
+          <span class="skill-tag">Gemini API</span>
+          <span class="skill-tag">XML/JSON</span>
+          <span class="skill-tag">Automation</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Education Section -->
+<section class="section section-dark" id="education">
+  <div class="section-header">
+    <div class="section-label">Education</div>
+    <h2 class="section-title">Academic Background</h2>
+    <p class="section-subtitle">Strong academic foundation in both software engineering and cyber security.</p>
+  </div>
+  <div class="education-grid">
+    <div class="edu-card">
+      <div class="edu-icon">&#127891;</div>
+      <div class="edu-degree">Master of Information Technology (Cyber Security)</div>
+      <div class="edu-school">University of Technology Sydney</div>
+      <div class="edu-meta">2024 - 2026</div>
+      <div class="edu-meta">Coursework: Network Security, Cryptography, Information Security, Cloud Computing</div>
+      <div class="edu-score">WAM: 77.94</div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-icon">&#128218;</div>
+      <div class="edu-degree">Bachelor of Information Science &amp; Engineering</div>
+      <div class="edu-school">Visvesvaraya Technological University (VTU)</div>
+      <div class="edu-meta">2018 - 2022</div>
+      <div class="edu-meta">Foundation in software engineering, data structures, and algorithms</div>
+      <div class="edu-score">CGPA: 8.0 / 10</div>
+    </div>
+  </div>
+  <div class="cert-section">
+    <div class="cert-label">Certifications &amp; Awards</div>
+    <div class="cert-grid">
+      <div class="edu-card cert-card">
+        <div class="cert-badge">&#128272;</div>
+        <div class="edu-degree">PwC Cyber Security Consulting</div>
+        <div class="edu-school">Forage Virtual Experience Program</div>
+        <div class="edu-meta">Completed October 2026</div>
+        <div class="cert-skills">
+          <span class="cert-skill-tag">Risk Assessment</span>
+          <span class="cert-skill-tag">SDLC</span>
+          <span class="cert-skill-tag">ITGC Testing</span>
+          <span class="cert-skill-tag">Controls Testing</span>
+        </div>
+        <a href="https://www.theforage.com/completion-certificates/CA4pBqsy4b4PdyaBP/4KqDALSkyRNPXjQGa_CA4pBqsy4b4PdyaBP_6ad8c4a85272042ebea35d37_1792826809613_completion_certificate.pdf" target="_blank" rel="noopener" class="cert-verify">Verify Certificate &#8594;</a>
+      </div>
+      <div class="edu-card cert-card">
+        <div class="cert-badge">&#127942;</div>
+        <div class="edu-degree">Best Project (Interface &amp; Design)</div>
+        <div class="edu-school">UTS Tech Festival 2025</div>
+        <div class="edu-meta">Coffee! Mobile Application</div>
+        <div class="cert-skills">
+          <span class="cert-skill-tag">React Native</span>
+          <span class="cert-skill-tag">UI/UX</span>
+          <span class="cert-skill-tag">Team Project</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Section -->
+<section class="section" id="contact">
+  <div class="section-header">
+    <div class="section-label">Contact</div>
+    <h2 class="section-title">Let's Connect</h2>
+    <p class="section-subtitle">I'm currently looking for opportunities across Australia. Feel free to reach out!</p>
+  </div>
+  <div class="contact-content">
+    <div class="contact-links">
+      <a href="mailto:minjujiji2000@gmail.com" class="contact-card">
+        <span class="contact-icon">&#9993;</span>
+        <span class="contact-label">Email</span>
+      </a>
+      <a href="https://linkedin.com/in/minju-jiji-0422131b8/" target="_blank" rel="noopener" class="contact-card">
+        <span class="contact-icon">&#128101;</span>
+        <span class="contact-label">LinkedIn</span>
+      </a>
+      <a href="https://github.com/minjujiji" target="_blank" rel="noopener" class="contact-card">
+        <span class="contact-icon">&#128187;</span>
+        <span class="contact-label">GitHub</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <p>&copy; 2026 Minju Jiji. Built with care.</p>
+</footer>
+
+<script>
+// Expand/collapse experience cards
+function toggleExpand(card) {
+  card.classList.toggle('expanded');
+}
+
+// Navbar scroll effect
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// Mobile nav toggle
+const navToggle = document.getElementById('navToggle');
+const navLinks = document.getElementById('navLinks');
+navToggle.addEventListener('click', () => {
+  navLinks.classList.toggle('open');
+});
+
+// Close mobile nav on link click
+navLinks.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+  });
+});
+
+// Scroll animations
+const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.remove('scroll-hidden');
+      entry.target.classList.add('scroll-revealed');
+    }
+  });
+}, observerOptions);
+
+document.querySelectorAll('.skill-category, .timeline-card, .project-card, .edu-card, .highlight-card, .contact-card, .cert-card').forEach(el => {
+  // Only hide elements that are below the current viewport
+  const rect = el.getBoundingClientRect();
+  if (rect.top > window.innerHeight) {
+    el.classList.add('scroll-hidden');
+  }
+  observer.observe(el);
+});
+
+// Stagger animation for skill categories
+document.querySelectorAll('.skill-category').forEach((el, i) => {
+  el.style.transitionDelay = `${i * 0.1}s`;
+});
+
+document.querySelectorAll('.highlight-card').forEach((el, i) => {
+  el.style.transitionDelay = `${i * 0.1}s`;
+});
+</script>
+
+</body>
+</html>
