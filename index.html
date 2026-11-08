@@ -416,12 +416,20 @@ body {
 
 .section-label {
   display: inline-block;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--accent);
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1565C0;
+  background: rgba(30,136,229,0.12);
+  padding: 6px 16px;
+  border-radius: 999px;
   text-transform: uppercase;
   letter-spacing: 2px;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
+}
+
+.section-dark .section-label {
+  color: #FFD43B;
+  background: rgba(255,212,59,0.15);
 }
 
 .section-title {
@@ -743,6 +751,23 @@ body {
   background: rgba(255,242,186,0.2);
 }
 
+.expand-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.expand-hint {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--navy-light);
+}
+
+.timeline-card.expandable:hover .expand-hint {
+  text-decoration: underline;
+}
+
 .expand-content {
   max-height: 0;
   overflow: hidden;
@@ -839,6 +864,10 @@ body {
 
 .preview-lixi {
   background: linear-gradient(135deg, #134E5E 0%, #2A8B8B 50%, #71B280 100%);
+}
+
+.preview-agentgauntlet {
+  background: linear-gradient(135deg, #0B1F2E 0%, #12384F 50%, #1F6F78 100%);
 }
 
 /* Dashboard mock UI */
@@ -1002,6 +1031,21 @@ body {
   border-color: transparent;
 }
 
+.project-link {
+  display: inline-block;
+  margin-top: 18px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--navy);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.project-link:hover {
+  color: var(--navy-light);
+  text-decoration: underline;
+}
+
 /* ── Education ── */
 .education-grid {
   max-width: 800px;
@@ -1070,12 +1114,12 @@ body {
 
 .cert-label {
   text-align: center;
-  font-size: 0.8rem;
+  font-size: 1rem;
   text-transform: uppercase;
   letter-spacing: 3px;
-  color: var(--accent);
+  color: #FFD43B;
   margin-bottom: 24px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .cert-grid {
@@ -1318,7 +1362,7 @@ body {
       <div class="stat-label">Technologies</div>
     </div>
     <div class="stat-item">
-      <div class="stat-number">4</div>
+      <div class="stat-number">5</div>
       <div class="stat-label">Projects Shipped</div>
     </div>
     <div class="stat-item">
@@ -1478,7 +1522,7 @@ body {
             <div class="timeline-role">Associate Software Engineer</div>
             <div class="timeline-company">SignDesk</div>
           </div>
-          <span class="expand-icon">+</span>
+          <span class="expand-toggle"><span class="expand-hint">Click for more details</span><span class="expand-icon">+</span></span>
         </div>
         <div class="timeline-meta">
           <span>&#128197; June 2022 - November 2023</span>
@@ -1536,7 +1580,7 @@ body {
             <div class="timeline-role">Software Engineering Intern</div>
             <div class="timeline-company">LIXI Ltd</div>
           </div>
-          <span class="expand-icon">+</span>
+          <span class="expand-toggle"><span class="expand-hint">Click for more details</span><span class="expand-icon">+</span></span>
         </div>
         <div class="timeline-meta">
           <span>&#128197; July 2025 - November 2025</span>
@@ -1659,11 +1703,49 @@ body {
           <span class="skill-tag">JWT</span>
           <span class="skill-tag">Recharts</span>
         </div>
+        <a href="https://github.com/minjujiji/ai-security-dashboard" target="_blank" rel="noopener" class="project-link">View on GitHub &#8594;</a>
+      </div>
+    </div>
+
+    <!-- AgentGauntlet -->
+    <div class="project-card featured">
+      <div class="project-preview preview-agentgauntlet">
+        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:white;text-align:center;padding:20px">
+          <div style="font-size:3rem;margin-bottom:8px">&#128737;</div>
+          <div style="font-size:1.2rem;font-weight:700;letter-spacing:1px">AgentGauntlet</div>
+          <div style="font-size:0.75rem;opacity:0.7;margin-top:4px">20 attacks, 4 defense layers</div>
+        </div>
+        <div class="project-type-badge">Personal Project</div>
+      </div>
+      <div class="project-body">
+        <div class="project-title">AgentGauntlet</div>
+        <div class="project-subtitle">Prompt Injection Test Lab for LLM Agents</div>
+        <p class="project-desc">
+          A small tool-using AI agent that I attack with 20 prompt injection scenarios, then measure how much four
+          defense layers help and what they cost in broken normal tasks. It runs locally on fake data with Ollama, so there are no API keys or real accounts.
+        </p>
+        <ul class="project-features">
+          <li>20 attack and 7 benign scenarios, each written as a YAML file</li>
+          <li>Four cumulative defenses: pattern scanner, content isolation, least privilege and simulated human confirmation</li>
+          <li>A judge written in plain code (no LLM) that reads the tool call log</li>
+          <li>Reports "model hijacked" next to strict attack success, because small models often fumble tool calls</li>
+          <li>On llama3.2:3b the scanner cut hijacked runs from 27% to 2%, but task success dropped from 81% to 71%</li>
+          <li>83 tests, with CI on GitHub Actions</li>
+        </ul>
+        <div class="project-tech">
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">Ollama</span>
+          <span class="skill-tag">Prompt Injection</span>
+          <span class="skill-tag">OWASP LLM Top 10</span>
+          <span class="skill-tag">pytest</span>
+          <span class="skill-tag">GitHub Actions</span>
+        </div>
+        <a href="https://github.com/minjujiji/agent-gauntlet" target="_blank" rel="noopener" class="project-link">View on GitHub &#8594;</a>
       </div>
     </div>
 
     <!-- Coffee! App -->
-    <div class="project-card">
+    <div class="project-card featured">
       <div class="project-preview preview-coffee">
         <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:white;text-align:center;padding:20px">
           <div style="font-size:3rem;margin-bottom:8px">&#9749;</div>
@@ -1675,7 +1757,7 @@ body {
       </div>
       <div class="project-body">
         <div class="project-title">Coffee!</div>
-        <div class="project-subtitle">Award-Winning Mobile Application</div>
+        <div class="project-subtitle">Award-Winning iOS App</div>
         <p class="project-desc">
           A mobile application that won Best Project for Interface and Design at the UTS Tech Festival 2025,
           demonstrating that great software needs to feel as good as it works.
@@ -1687,10 +1769,12 @@ body {
           <li>Recognized for exceptional interface design and user experience</li>
         </ul>
         <div class="project-tech">
-          <span class="skill-tag">Mobile Development</span>
+          <span class="skill-tag">iOS</span>
+          <span class="skill-tag">Xcode</span>
           <span class="skill-tag">UI/UX Design</span>
           <span class="skill-tag">Team Collaboration</span>
         </div>
+        <a href="https://github.com/SyDGooDBoY/IOS_A3_COFFEE" target="_blank" rel="noopener" class="project-link">View on GitHub &#8594;</a>
       </div>
     </div>
 
@@ -1810,9 +1894,9 @@ body {
         <div class="cert-badge">&#127942;</div>
         <div class="edu-degree">Best Project (Interface &amp; Design)</div>
         <div class="edu-school">UTS Tech Festival 2025</div>
-        <div class="edu-meta">Coffee! Mobile Application</div>
+        <div class="edu-meta">Coffee! iOS App</div>
         <div class="cert-skills">
-          <span class="cert-skill-tag">React Native</span>
+          <span class="cert-skill-tag">iOS</span>
           <span class="cert-skill-tag">UI/UX</span>
           <span class="cert-skill-tag">Team Project</span>
         </div>
@@ -1855,6 +1939,10 @@ body {
 // Expand/collapse experience cards
 function toggleExpand(card) {
   card.classList.toggle('expanded');
+  const hint = card.querySelector('.expand-hint');
+  if (hint) {
+    hint.textContent = card.classList.contains('expanded') ? 'Click to close' : 'Click for more details';
+  }
 }
 
 // Navbar scroll effect
